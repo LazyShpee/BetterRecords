@@ -15,6 +15,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 @Config(modid = ID)
 @Config.LangKey("betterrecords.config.title")
 object ModConfig {
+    @JvmField
+    @Config.Comment("Maximum cable length")
+    @Config.RangeInt(min = 2, max = 1000)
+    var maxCableLength = 7
 
     @JvmField
     @Config.Comment("Maximum speaker radius")

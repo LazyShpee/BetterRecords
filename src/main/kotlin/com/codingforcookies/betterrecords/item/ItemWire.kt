@@ -14,6 +14,7 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import com.codingforcookies.betterrecords.ModConfig
 
 class ItemWire(name: String) : ModItem(name), IRecordWireManipulator {
 
@@ -33,7 +34,7 @@ class ItemWire(name: String) : ModItem(name), IRecordWireManipulator {
                 val y1 = -(pos.y - if (it.fromHome) it.y1 else it.y2).toFloat()
                 val z1 = -(pos.z - if (it.fromHome) it.z1 else it.z2).toFloat()
 
-                if (Math.sqrt(Math.pow(x1.toDouble(), 2.toDouble()) + Math.pow(y1.toDouble(), 2.toDouble()) + Math.pow(z1.toDouble(), 2.toDouble())) > 7 || it.sameInitial(pos.x, pos.y, pos.z)) {
+                if (Math.sqrt(Math.pow(x1.toDouble(), 2.toDouble()) + Math.pow(y1.toDouble(), 2.toDouble()) + Math.pow(z1.toDouble(), 2.toDouble())) > ModConfig.maxCableLength || it.sameInitial(pos.x, pos.y, pos.z)) {
                     connection = null
                     return EnumActionResult.PASS
                 }
