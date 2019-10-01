@@ -7,10 +7,11 @@ import com.codingforcookies.betterrecords.extensions.distanceTo
 import net.minecraft.client.Minecraft
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
+import com.codingforcookies.betterrecords.ModConfig
 
 fun getGain(normVol: Float): Float {
     val min = -80F;
-    val max = -10F;
+    val max = ModConfig.client.maxGain.toFloat();
     return ((max - min) * normVol) + min;
 }
 
@@ -52,16 +53,12 @@ fun getVolumeForPlayerFromBlock(pos: BlockPos): Float {
         // val volume = distance * (50F / te.songRadius /
         //        (Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.MASTER) *
         //                Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.RECORDS)))
-        val master = Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.MASTER)
+        val master = if (ModConfig.client.ignoreMaster) 1F else Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.MASTER)
         val record = Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.RECORDS)
         // Here we use an inverse function to make the volume almost constant except when at the distance limit
         // It's a small change that doesn't reflect reality but is there for quality of life purposes
         val volume = getGain((master * record) * (1 + 1 / (distance - te.songRadius)));
-        // BetterRecords.logger.info("Volume updated to: $volume")
-        if (volume < -80F) {
-            -80F
-        } else {
-            volume
-        }
+        // BetterRecords.logger.info("Volume updated to: $volume, $master, $record")
+        volume.coerceIn(-80F, 6F)
     }
 }

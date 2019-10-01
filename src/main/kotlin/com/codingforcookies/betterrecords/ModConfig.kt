@@ -35,10 +35,20 @@ object ModConfig {
     var client = Client()
 
     class Client {
+        @JvmField
+        @Config.Comment("Maximum gain, in Db")
+        @Config.RangeInt(min = -80, max = 6)
+        var maxGain = 0;
+
+        @JvmField
+        @Config.Comment("Volume ignores master, only depend on jukebox volume slider")
+        var ignoreMaster = false
+
 
         @JvmField
         @Config.Comment("Enable developer mode")
         var devMode = false
+
         @JvmField
         @Config.Comment("Max file size to download (in megabytes)")
         @Config.RangeInt(min = 1, max = 1000)
